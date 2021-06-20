@@ -1,0 +1,5 @@
+junk/*
+debug.py
+*profile*
+__pycache__
+*.lprof
