@@ -3,11 +3,14 @@ from utils import *
 letter_a = Letter(5, actual_letter = "a")
 # letter_a.lines = [(0,1), (1,2), (2,3), (3,4), (1,3)]
 letter_a.lines = [(0,1), (1,2), (2,3), (1,3), (3,4)]
-letter_a.add_line_interaction(0,1, foo = hinged_relative_line_angle, low = 120, high = 180 )
 # letter_a.add_line_interaction(1,3, foo = hinged_relative_line_angle, low = -120, high = -30)
-letter_a.add_line_interaction(3,1, foo = hinged_relative_line_angle, low = 30, high = 120)
+# letter_a.add_line_interaction(3,1, foo = hinged_relative_line_angle, low = 30, high = 120)
+# letter_a.add_line_interaction(3,4, foo = hinged_relative_line_angle, low = 60, high  = 150)
+# letter_a.add_line_interaction(0,1, foo = hinged_relative_line_angle, low = 120, high = 180 )
+letter_a.add_line_interaction(0,1, foo = hinged_relative_line_angle, exact = 180 ) #A's slant line should be straight - Rajas's suggestion
 letter_a.add_line_interaction(1,2, foo = hinged_relative_line_angle, low = 10, high = 120)
-letter_a.add_line_interaction(3,4, foo = hinged_relative_line_angle, low = 60, high  = 150)
+# letter_a.add_line_interaction(2,4, foo = hinged_relative_line_angle, low = 120, high = 180 )
+letter_a.add_line_interaction(2,4, foo = hinged_relative_line_angle, exact = 180) #A's slant line should be straight - Rajas's suggestion
 letter_a.add_line_interaction(3, None,  foo = absolute_line_angle_with_x_axis, low = 0, high = 45) 
 letter_a.add_pt_interaction(0,4, foo = pts_x_axis ,left = True, strict = True)
 letter_a.add_pt_interaction(4,2, foo = pts_y_axis ,bottom = True, strict = True)
@@ -171,9 +174,12 @@ letter_j.add_line_interaction(1,0, foo = hinged_relative_line_angle, low = 20, h
 letter_j.add_line_interaction(2,1, foo = hinged_relative_line_angle, low = 45, high = 135 )
 letter_j.add_line_interaction(2,3, foo = hinged_relative_line_angle, exact = 180 )
 letter_j.add_pt_interaction(0,3, foo = pts_y_axis, bottom = True, strict = True)
+letter_j.add_pt_interaction(1,3, foo = pts_y_axis, bottom = True, strict = True) #J's top should touch the bottom
+letter_j.add_pt_interaction(1,4, foo = pts_y_axis, bottom = True, strict = True) #J's top should touch the bottom
 letter_j.add_pt_interaction(1,2, foo = pts_y_axis, bottom = True)
 letter_j.add_pt_interaction(0,2, foo = pts_y_axis, bottom = True)
 letter_j.add_pt_interaction(1,3, foo = pts_y_axis, bottom = True)
+letter_j.add_pt_interaction(0,2, foo = pts_x_axis, left = True, strict = True)
 letter_j.add_line_interaction(1, None,  foo = absolute_line_angle_with_x_axis, low = 60, high = 120) 
 
 letter_j_minimal_1 = Letter(3, actual_letter = "j")
@@ -196,6 +202,7 @@ letter_n.add_pt_interaction(0,1, foo = pts_y_axis, bottom = True)
 letter_n.add_pt_interaction(1,2, foo = pts_x_axis, left = True)
 letter_n.add_pt_interaction(2,1, foo = pts_y_axis, bottom = True, strict = True)
 letter_n.add_pt_interaction(2,3, foo = pts_y_axis, bottom = True)
+letter_n.add_pt_interaction(0,3, foo = pts_y_axis, bottom = True, strict = True) # start of N below end of N, otherwise looks like a z
 
 
 letter_t_minimal_1 = Letter(3, actual_letter = "t")

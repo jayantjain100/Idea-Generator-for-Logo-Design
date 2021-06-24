@@ -1,43 +1,61 @@
-### Stuff that can be done
+## Stuff that can be done
 
-- Smartly choosing the next transition 
-	- looking at the contribution of adding an edge - maybe specifically looking at the combinations involving the new pt
-	- having a continuous score function that guides us towards creating a letter
-	- incentive to minimise the number of points and segments
+
+#### Resolved/Done
 
 - Smart removal of a point
 	- currently we remove a point that has minimal connextivity (Not exactly ideal )
 	- choose the point that doesnt break current progress or something like that
 
-- Instead of loops over all nPk perms, we can somehow smartly choose the candidates? (take inspiration from the data mining course?)
-
-- If a line segment cuts some one else, do we want to break it over there or not?
+- Instead of loops over all nPk perms, we can somehow smartly choose the candidates? (take inspiration from the data mining course?) ==> We chose to look at those subgraphs which were isomerphic
 
 - A function prune which removes all edges which dont contribute to the final name/letter
 
-- Let a drawing be defined by the position of some points - thats it. Then you wont have to check for lines etc, assume full connectivity. Just check length and angle constraints. Cause currently it might be the case that the points exist but a segment was missing and we are unable to get to the letter because of that. If we implement it without lines in the drawing, then, would it be slower? maybe not cause PnC is over points, we will not reject a set early on (by connectivity) since full connectivity will always be there. 
+- Let a drawing be defined by the position of some points - thats it. Then you wont have to check for lines etc, assume full connectivity. Just check length and angle constraints. Cause currently it might be the case that the points exist but a segment was missing and we are unable to get to the letter because of that. If we implement it without lines in the drawing, then, would it be slower? maybe not cause PnC is over points, we will not reject a set early on (by connectivity) since full connectivity will always be there. ===> Did this but it reduced interpretability
 
-- later when we get many possible drawings for a name, we need to weigh the aesthetic value etc - are all letters the same size etc  
+- profile code and see the bottlenecks ==> Profiled and optimised 
+- does printing waste time? ==> Profiled and saw no (maybe recheck when display is off)
 
-- profile code and see the bottlenecks
+- Enforcing enclosed figures ==> Animesh said that this won't necessarily look good
 
-- does printing waste time?
-
-- Enforcing enclosed figures, removing un-needed line segments in the end, 
-
-- remove the point which doesnt appear in any letter or appears the least
-
-- add more letters
+- remove the point which doesnt appear in any letter or appears the least ==> Done by our removal strategy according to the num of "hits"
 
 - concern - a letter with more points will take a long long time (even if the combinations are less, ther permutations grow crazily)
 	- might not be a bad idea to look into the dfs idea
 	- this would have already been done right
 	- Graph tool directly gives this functionality to get all subgraphs of a given papa graph isomorphic to a given baby graph
 	- use the networkx analogue pehle and then profile and see if its the slowest step or not
+	- ===> Done
 
-- is plotting along side wasting time?
+- is plotting along side wasting time? Yes
+
+
+
+#### Pending
+
+- Smartly choosing the next transition 
+	- looking at the contribution of adding an edge - maybe specifically looking at the combinations involving the new pt
+	- having a continuous score function that guides us towards creating a letter
+	- incentive to minimise the number of points and segments
+
+- If a line segment cuts some one else, do we want to break it over there or not? ==> Couldnt decide yes or no
+
+- later when we get many possible drawings for a name, we need to weigh the aesthetic value etc - are all letters the same size etc  
+
+- add more letters
 
 - Can add OR operations between letter interactions
 	- currently the low high does not support all possibilities for letter "A"'s middle bar
 
-	
+- Need to reduce pruning time somehow, cause when we use -connect-collinear then it is really slow (unaffected by display) (remove useless lines?)
+
+- if we use connect-collinear, do we want to alter the line drawing function to avoid one line highlighting more than the other
+
+- flexible letter structure - optional segment  - easy way to implement is to have a function that takes in a letter and the points/lines to remove collectively and then does it 
+
+- from letter description to design 
+
+- add a print function in the letter which gives human readable text about the structure and all interactions/constraints
+
+- delta jump for choosing the edge to add?
+s
