@@ -284,6 +284,17 @@ so the interaction we have are -
 # 	def __init__():
 # 		pass
 
+# #POTE
+# class CustomFloat():
+# 	def __init__(self, val):
+# 		self.val = float(val)
+
+# 	def __eq__(self, other):
+# 		if isinstance(other, CustomFloat):
+# 			other = other.val
+# 		return abs(self.val - other) <= EPSILON:
+		
+
 #LATER - might want to store coords as a dictionary for faster removal etc
 #Profile and see
 class Drawing():
@@ -337,7 +348,7 @@ class Drawing():
 				if (pt1,pt2) not in self.lines and (pt2, pt1) not in self.lines:
 						self.lines.append((pt1,pt2))
 						# time.sleep(3)
-						cprint(f"look here, added {(pt1,pt2)}", "cyan")
+						# cprint(f"look here, added {(pt1,pt2)}", "cyan")
 
 
 
@@ -345,7 +356,7 @@ class Drawing():
 		#pt is supposed to be a 2d pt
 		if isinstance(pt, (int)):
 			#most probably pt index was given
-			print("warning")
+			# print("warning")
 			pt = self.coords[pt]
 
 		assert pt in self.coords, "invalid existing pt to make a new connection"
@@ -443,14 +454,14 @@ class Drawing():
 	# 	print(f"actual_counter was {actual_counter}")
 	# 	return ((min_invalid_constaints == 0), *best_config)
 	
-	def check_letter(self, letter, display = True, dots = True, find_all = False):
+	def check_letter(self, letter, display = True, dots = True, find_all = False, must_include = None):
 		num_pts_needed = letter.pts
 		available = self.pts
 		if num_pts_needed > available:
-			print("not enough points")
+			# print("not enough points")
 			return False, 1, [0]*self.pts 
 		if len(letter.lines) > len(self.lines):
-			print("not enough lines")
+			# print("not enough lines")
 			return False, 1, [0]*self.pts
 
 		counter = 0
@@ -475,6 +486,8 @@ class Drawing():
 			# print(mapping)
 			# the mapping is from graph_drawing nodes to graph_letter nodes
 			# perm[i] is supposed to have graph_drawings node for node i of graph_letter
+			if ((must_include is not None) and (not (must_include in mapping))):
+				continue
 			perm = [-1 for _ in range(letter.pts)]
 			for k in mapping:
 				perm[mapping[k]] = k
@@ -502,6 +515,7 @@ class Drawing():
 					if not constraint(coords):
 						# cprint("failed", "red")
 						# print(description)
+						# # failed = description
 
 						# to_draw = [(perm[x], perm[y]) for x,y in letter.lines]
 						# self.show(color = letter.color, fresh= False, subset_lines = to_draw, mark_points = coords, opacity = 0.7)
@@ -524,7 +538,7 @@ class Drawing():
 				for el in perm:
 					importance[el] += 1
 				best_config = (round(min_invalid_constaints/len(letter.interactions),2), importance)
-
+				# print(failed)
 
 			if success:
 				to_draw = [(perm[x], perm[y]) for x,y in letter.lines]
@@ -532,15 +546,15 @@ class Drawing():
 					self.show(color = letter.color, fresh= False, subset_lines = to_draw, mark_points = coords if dots else None, opacity = 0.7)
 					already_drawn = True
 				if not find_all:
-					cprint(f"Analysed {counter} Permutation-Combinations and found :)", "magenta")
+					# cprint(f"Analysed {counter} Permutation-Combinations and found :)", "magenta")
 					return (True, *best_config)
 
-		if display:
-			if min_invalid_constaints !=0:
-				cprint(f"Analysed {counter} Permutation-Combinations but could not find", "magenta")
-			else:
-				cprint(f"Analysed {counter} Permutation-Combinations and found it!", "magenta")
-		print(f"counter was {counter}")
+		# if display:
+		# 	if min_invalid_constaints !=0:
+		# 		cprint(f"Analysed {counter} Permutation-Combinations but could not find", "magenta")
+		# 	else:
+		# 		cprint(f"Analysed {counter} Permutation-Combinations and found it!", "magenta")
+		# print(f"counter was {counter}")
 		return ((min_invalid_constaints == 0), *best_config)
 	
 
@@ -624,7 +638,7 @@ class Drawing():
 		plt.tight_layout()
 		plt.draw()	
 		plt.pause(duration)
-		print("sleeping")
+		# print("sleeping")
 		# time.sleep(duration)
 
 # class drawing2():

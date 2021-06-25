@@ -7,14 +7,18 @@ jumps = [(x,y) for x in range(-abs_delta, abs_delta + 1) for y in range(-abs_del
 
 NEW_ANGLES = args.new_angle
 if NEW_ANGLES:
-	jumps = [(2,0), (2,1), (1,2), (0,2)]
+	# jumps = [(2,1), (1,2)]
+	jumps = [(2,1), (1,2), (0,2)]
+	# jumps = [(2,0), (2,1), (1,2)]
+	# jumps = [(2,0), (2,1), (1,2), (0,2)]
+	# jumps = [(2,0), (2,1), (1,2), (0,2), (2,2)]
 	new_jumps = set()
 	for x,y in jumps:
 		for mult1 in (-1,1):
 			for mult2 in (-1,1):
 				new_jumps.add((mult1*x, mult2*y))
 	jumps = list(new_jumps)
-	print(jumps)
+	
 
 MEGAJUMP = args.mega_jump
 if MEGAJUMP:
@@ -40,7 +44,7 @@ PROB_GREEDY_REMOVAL = 1
 DRAWING_NUM_POINTS_UPPER_LIMIT = args.upper_limit
 DRAWING_NUM_POINTS_LOWER_LIMIT = 5
 
-PROB_CONNECT_OLD_POINTS = 0
+PROB_CONNECT_OLD_POINTS = args.prob_connect_old_pts
 # PROB_CONNECT_OLD_POINTS = 0.02
 # PROB_CONNECT_OLD_POINTS = 0.1
 

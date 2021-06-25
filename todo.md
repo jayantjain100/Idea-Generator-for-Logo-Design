@@ -29,6 +29,10 @@
 
 - is plotting along side wasting time? Yes
 
+- can match against removed one level subgraphs and removed 2 level subgraphs to get a sense of direction
+	- delta mei then a match against a 1 removed subgraph would also count
+	- whats happening currently is that is tries to find a but it cant at all
+	==> incorrect observation since code was wrong (I wasnt allowing connections between existing ppl)
 
 
 #### Pending
@@ -41,8 +45,8 @@
 - If a line segment cuts some one else, do we want to break it over there or not? ==> Couldnt decide yes or no
 
 - later when we get many possible drawings for a name, we need to weigh the aesthetic value etc - are all letters the same size etc  
+	- how would we guide using this aesthetic value
 
-- add more letters
 
 - Can add OR operations between letter interactions
 	- currently the low high does not support all possibilities for letter "A"'s middle bar
@@ -58,4 +62,20 @@
 - add a print function in the letter which gives human readable text about the structure and all interactions/constraints
 
 - delta jump for choosing the edge to add?
-s
+
+- since we are faster, think of increasing the degrees of freedom
+
+- delta_step version gets stuck because it keeps on trying to fix one constraint which might be unfixable, and it doesn't explore
+
+- support for floating point numbers to include all angles possible
+
+- pruning not working properly? 
+	- check in the generated images
+	- with new_angles some constraints dont match cause of the 26.5 deg angle, this could be the reason
+
+- add more letters
+
+- sometimes a pt is removed that was crucial, why does this happen? bug?
+	- add toughness wapas se?
+
+- think if an A is even possible if I use new_jumps with base = [(2,1),(1,2)]

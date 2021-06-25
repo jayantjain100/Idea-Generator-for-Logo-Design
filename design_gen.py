@@ -5,6 +5,9 @@ import copy
 import math
 import os
 import datetime
+from args import *
+args = make_args()
+
 
 if __name__ == "__main__":
 	plt.ion()
@@ -31,7 +34,8 @@ if __name__ == "__main__":
 	# time.sleep(500)
 	# sys.exit()
 
-	name = input("Enter a name: ")
+	# name = input("Enter a name: ")
+	name = args.name
 	name = name.lower().strip()
 	print(f"the name you entered was {name}")
 	# sys.exit()
@@ -81,15 +85,23 @@ if __name__ == "__main__":
 		letter.color = all_colors[i % len(all_colors)]
 
 	initial_drawing = Drawing(pts = 1, coords = [(0,0)], lines = [], num_fig_columns = num_fig_columns)
+	# initial_drawing = Drawing(pts = 11, 
+	# 	coords = [(0, 0), (-2, 1), (-2, -1), (-4, 0), (-4, 2), (-5, -2), (-4, -2), (-2, -3), (-2, 3), (-4, -4), (-1, 3)], 
+	# 	lines = [(0, 1), (1, 2), (2, 0), (2, 3), (3, 1), (1, 4), (3, 4), (3, 5), (3, 6), (2, 7), (6, 7), (2, 6), (1, 8), (4, 8), (6, 9), (5, 9), (9, 7), (1, 10)], 
+	# 	num_fig_columns = num_fig_columns
+	# )
+	
 	my_drawing = copy.deepcopy(initial_drawing)
 	# my_drawing = drawing2(pts = 1, coords = [(0,0)])
 	my_drawing.show(display = DISPLAY_WORKING)
-	
+	# sys.exit()
 	drawing_counter = 0
 	removal_freq = 2
 	total_found = 0
 
+	letters_to_improve_on = []
 	# while(True):
+	cprint(f"jumps are {jumps}", "yellow")
 	for _ in tqdm(range(10000)):
 		try:
 			print(f"total_found was {total_found}")
@@ -102,6 +114,57 @@ if __name__ == "__main__":
 				dx, dy = chosen_jump
 				x, y = old_pt
 				potential_new = (x + dx, y + dy)
+				if args.delta_step:
+					cprint(f"Trying to improve {[x.actual_letter for x in letters_to_improve_on]}", "yellow")
+					if len(letters_to_improve_on) == 0:
+						letters_to_improve_on = template_letters
+					letter_to_improve_on = random.choice(letters_to_improve_on)
+					best_cost = 1
+					possibilites_for_connection = []
+					
+					# can pick only one old pt for a speed up here
+					coords_drawing = my_drawing.coords.copy()
+					shuffled_jumps = jumps.copy()
+					random.shuffle(coords_drawing)
+					random.shuffle(shuffled_jumps)
+					for existing in coords_drawing:
+						if best_cost == 0:
+							break
+						for chosen_jump in shuffled_jumps:
+							already_existed = False
+							dx, dy = chosen_jump
+							x, y = existing
+							try_out = (x + dx, y + dy)
+							# if try_out in my_drawing.coords:
+							# 	continue
+							if try_out in my_drawing.coords:
+								pt_index = my_drawing.coords.index(try_out)
+								old_pt_index = my_drawing.coords.index(existing)
+								if (pt_index, old_pt_index) in my_drawing.lines or (old_pt_index, pt_index) in my_drawing.lines:
+									# optimisation
+									continue
+								already_existed = True
+							else:
+								pt_index = my_drawing.pts
+
+							my_drawing.connect_new_pt(existing, try_out, connect_collinear_directly = CONNECT_COLLINEAR_DIRECTLY) 
+							_, letter_cost, _ = my_drawing.check_letter(letter_to_improve_on, find_all = False, display = False, must_include = pt_index)
+							
+							if not already_existed:
+								my_drawing.remove_pt(try_out)
+							if letter_cost < best_cost:
+								best_cost = letter_cost
+								possibilites_for_connection = [(existing, try_out)]
+							elif letter_cost == best_cost:
+								possibilites_for_connection.append((existing, try_out))
+							if best_cost == 0:
+								break
+					cprint(f"the best cost was {best_cost}", "green")
+					# print(f"found_possibilities {possibilites_for_connection}")
+					if len(possibilites_for_connection) != 0:
+						old_pt, potential_new = random.choice(possibilites_for_connection)
+						print(f"chose to connect {old_pt} and  {potential_new}")
+					# time.sleep(1)
 			else:
 				# adding an edge between the old points
 				another_old_pt = random.choice(list(range(my_drawing.pts)))
@@ -111,8 +174,10 @@ if __name__ == "__main__":
 				# name is misleading
 				potential_new = my_drawing.coords[another_old_pt]
 
-			my_drawing.connect_new_pt(old_pt, potential_new, connect_collinear_directly = CONNECT_COLLINEAR_DIRECTLY) 
+
+
 			# my_drawing.add_new_pt(potential_new) 
+			my_drawing.connect_new_pt(old_pt, potential_new, connect_collinear_directly = CONNECT_COLLINEAR_DIRECTLY) 
 			my_drawing.show(display = DISPLAY_WORKING)
 			# success = my_drawing.contains_this_letter(letter_j) # draw with different color?
 			# success = template_letter.check_drawing(my_drawing) # draw with different color?
@@ -120,13 +185,24 @@ if __name__ == "__main__":
 			atleast_one = False
 			all_chosen_pts = []
 			net_cost = 0
+			worst_performance = 0
+			letters_to_improve_on = []
+
 			for letter in template_letters:
 				# cprint(f"checking letter {letter.actual_letter}", "green")
 				# temp, letter_cost, importances = my_drawing.check_letter(letter)
-				temp, letter_cost, importances = my_drawing.check_letter(letter, find_all = True, display = DISPLAY_WORKING)
-				success = success and temp # draw with different color?
+				found, letter_cost, importances = my_drawing.check_letter(letter, find_all = True, display = DISPLAY_WORKING)
+				success = success and found # draw with different color?
 				all_chosen_pts.append((letter_cost, importances))
 				net_cost += letter_cost
+				if not found:
+					letters_to_improve_on.append(letter)
+				# if letter_cost > worst_performance:
+				# 	worst_performance = letter_cost
+				# 	letters_to_improve_on = [letter]
+				# elif letter_cost == worst_performance:
+				# 	letters_to_improve_on.append(letter)
+
 				# time.sleep(1)
 
 			print(f"net cost was {net_cost}")

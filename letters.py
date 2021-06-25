@@ -38,11 +38,11 @@ letter_i.add_pt_interaction(0,1, foo = pts_y_axis, bottom = True, strict = True)
 letter_m = Letter(5, actual_letter = "m")
 letter_m.lines = [(0,1), (1,2), (2,3), (3,4)]
 letter_m.add_line_interaction(0,None, foo=absolute_line_angle_with_x_axis,low=45,high=120)
-letter_m.add_line_interaction(0,1,foo=hinged_relative_line_angle,low = 30,high = 135)
+letter_m.add_line_interaction(0,1,foo=hinged_relative_line_angle,low = 15,high = 135)
 letter_m.add_pt_interaction(0,1,foo = pts_y_axis, bottom = True, strict = True)
 letter_m.add_pt_interaction(2,1,foo = pts_y_axis, bottom = True, strict = True)
 letter_m.add_pt_interaction(2,3,foo = pts_y_axis, bottom = True, strict = True)
-letter_m.add_line_interaction(2,3,foo=hinged_relative_line_angle,low = 30,high = 135)
+letter_m.add_line_interaction(2,3,foo=hinged_relative_line_angle,low = 15,high = 135)
 letter_m.add_pt_interaction(4,3,foo = pts_y_axis, bottom = True, strict = True)
 
 
@@ -126,7 +126,9 @@ letter_p.lines = [(0,1), (1,2), (2,3), (3,1)]
 letter_p.add_pt_interaction(0,1,foo = pts_y_axis, bottom = True, strict = True)
 letter_p.add_pt_interaction(1,2,foo = pts_y_axis, bottom = True, strict = True)
 letter_p.add_pt_interaction(2,3,foo = pts_x_axis, left = True, strict = True)
+letter_p.add_pt_interaction(1,3,foo = pts_x_axis, left = True, strict = True)
 letter_p.add_line_interaction(0,1,foo = hinged_relative_line_angle, exact = 180)
+letter_p.add_line_interaction(2,3,foo = hinged_relative_line_angle, low = 10, high = 120)
 letter_p.add_pt_interaction(1,3,foo = pts_y_axis, bottom = True)
 
 
@@ -135,10 +137,13 @@ letter_r.lines = [(0,1), (1,2), (2,3), (3,1), (1,4)]
 letter_r.add_pt_interaction(0,1,foo = pts_y_axis, bottom = True, strict = True)
 letter_r.add_pt_interaction(1,2,foo = pts_y_axis, bottom = True, strict = True)
 letter_r.add_pt_interaction(2,3,foo = pts_x_axis, left = True, strict = True)
+letter_r.add_pt_interaction(1,3,foo = pts_x_axis, left = True, strict = True)
 letter_r.add_line_interaction(0,1,foo = hinged_relative_line_angle, exact = 180)
+letter_r.add_line_interaction(0,4,foo = hinged_relative_line_angle, low = 10, high = 75)
 letter_r.add_pt_interaction(1,3,foo = pts_y_axis, bottom = True)
 letter_r.add_pt_interaction(0,4,foo = pts_x_axis, left = True, strict = True)
 letter_r.add_pt_interaction(4,1,foo = pts_y_axis, bottom = True, strict = True)
+letter_r.add_line_interaction(2,3,foo = hinged_relative_line_angle, low = 10, high = 120)
 
 
 
@@ -147,10 +152,13 @@ letter_k.lines = [(0,1), (1,2), (3,1), (1,4)]
 letter_k.add_pt_interaction(0,1,foo = pts_y_axis, bottom = True, strict = True)
 letter_k.add_pt_interaction(1,2,foo = pts_y_axis, bottom = True, strict = True)
 letter_k.add_pt_interaction(2,3,foo = pts_x_axis, left = True, strict = True)
+letter_k.add_pt_interaction(1,3,foo = pts_x_axis, left = True, strict = True)
 letter_k.add_line_interaction(0,1,foo = hinged_relative_line_angle, exact = 180)
+letter_k.add_line_interaction(0,3,foo = hinged_relative_line_angle, low = 10, high = 75)
 letter_k.add_pt_interaction(1,3,foo = pts_y_axis, bottom = True)
 letter_k.add_pt_interaction(0,4,foo = pts_x_axis, left = True, strict = True)
 letter_k.add_pt_interaction(4,1,foo = pts_y_axis, bottom = True, strict = True)
+letter_k.add_line_interaction(2,1,foo = hinged_relative_line_angle, low = 10, high = 75)
 
 
 letter_b = Letter(5, actual_letter = 'b')
@@ -159,12 +167,16 @@ letter_b.add_pt_interaction(0,1,foo = pts_y_axis, bottom = True, strict = True)
 letter_b.add_pt_interaction(1,2,foo = pts_y_axis, bottom = True, strict = True)
 # letter_b.add_pt_interaction(2,3,foo = pts_x_axis, left = True, strict = True)
 letter_b.add_pt_interaction(2,3,foo = pts_x_axis, left = True)
+letter_b.add_pt_interaction(1,3,foo = pts_x_axis, left = True, strict = True)
 letter_b.add_line_interaction(0,1,foo = hinged_relative_line_angle, exact = 180)
+letter_b.add_line_interaction(0,4,foo = hinged_relative_line_angle, low = 10, high = 75)
 letter_b.add_pt_interaction(1,3,foo = pts_y_axis, bottom = True)
 letter_b.add_pt_interaction(0,4,foo = pts_x_axis, left = True, strict = True)
 letter_b.add_pt_interaction(4,1,foo = pts_y_axis, bottom = True)
 letter_b.add_line_interaction(4,5,foo = hinged_relative_line_angle, low = 10, high = 120)
 letter_b.add_line_interaction(2,3,foo = hinged_relative_line_angle, low = 10, high = 120)
+letter_b.add_line_interaction(2,3,foo = hinged_relative_line_angle, low = 10, high = 120)
+letter_b.add_line_interaction(4,5,foo = hinged_relative_line_angle, low = 10, high = 120)
 
 # Realisation: need one interaction with xaxis etc, otherwise you can get a rotated version
 # remember that the absolute_angle_with_xaxis is on the undirected line seg 
@@ -194,14 +206,14 @@ letter_j_minimal_1.add_pt_interaction(0,2, foo = pts_y_axis, bottom = True, stri
 letter_n = Letter(4, actual_letter = "n")
 letter_n.lines = [(0,1), (1,2), (2,3)]
 letter_n.add_line_interaction(0, None, foo = absolute_line_angle_with_x_axis, low = 45, high = 135)
-letter_n.add_line_interaction(1, None, foo = absolute_line_angle_with_x_axis, low = 45, high = 135)
+letter_n.add_line_interaction(1, None, foo = absolute_line_angle_with_x_axis, low = 15, high = 165)
 letter_n.add_line_interaction(2, None, foo = absolute_line_angle_with_x_axis, low = 45, high = 135)
 letter_n.add_line_interaction(0, 1, foo = hinged_relative_line_angle, low = 30, high = 120)
 letter_n.add_line_interaction(2, 1, foo = hinged_relative_line_angle, low = 30, high = 120)
 letter_n.add_pt_interaction(0,1, foo = pts_y_axis, bottom = True)
 letter_n.add_pt_interaction(1,2, foo = pts_x_axis, left = True)
 letter_n.add_pt_interaction(2,1, foo = pts_y_axis, bottom = True, strict = True)
-letter_n.add_pt_interaction(2,3, foo = pts_y_axis, bottom = True)
+letter_n.add_pt_interaction(2,3, foo = pts_y_axis, bottom = True, strict = True)
 letter_n.add_pt_interaction(0,3, foo = pts_y_axis, bottom = True, strict = True) # start of N below end of N, otherwise looks like a z
 
 
